@@ -158,5 +158,39 @@ public class Reactor2 {
             }
         });
 
+        Flux<String> flux = Flux.generate(
+                () -> { // Callable<S> stateSupplier
+                    return 0;
+                },
+                (state, sink) -> { // BiFunction<S, SynchronousSink<T>, S> generator
+                    sink.next("3 x " + state + " = " + 3 * state);
+                    if (state == 10) {
+                        sink.complete();
+                    }
+                    return state + 1;
+                });
+
+        flux.subscribe(s -> System.out.println(s));
+
+        Flux<String> flux2 = Flux.generate(
+
+                () -> 1,
+
+                (state, sink) -> {
+
+                    sink.next("Q: 3 * " + state);
+
+                    sink.next("A: " + (3 * state)); // More than one call to onNext 에러!
+
+                    if (state == 10) {
+
+                        sink.complete();
+
+                    }
+
+                    return state + 1;
+
+                });
+        flux2.subscribe(s -> System.out.println(s));
     }
 }
