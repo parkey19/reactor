@@ -23,6 +23,8 @@ dependencies {
     compile('ch.qos.logback:logback-classic:1.1.5')
     compile 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compile group: 'io.projectreactor.netty', name: 'reactor-netty', version: '0.9.6.RELEASE'
+
 }
 
 test {
